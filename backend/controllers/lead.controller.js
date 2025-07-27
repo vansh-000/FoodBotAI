@@ -18,7 +18,7 @@ exports.createLead = async (req, res, next) => {
 };
 
 
-exports.getLeads = async (req, res, next) => {
+exports.getAllLeads = async (req, res, next) => {
   try {
     const snapshot = await leadsCollection.get();
     const leads = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));

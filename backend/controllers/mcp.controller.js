@@ -7,24 +7,50 @@ const {
 } = require('./lead.controller'); 
 
 exports.createLeadFromMCP = async (data) => {
-  return await createLead({ body: data });
+  return new Promise((resolve, reject) => {
+    const req = { body: data };
+    const res = {
+      json: (data) => resolve(data),
+      status: (code) => ({
+        json: (data) => reject({ status: code, ...data }),
+      }),
+    };
+    createLead(req, res, (err) => reject(err));
+  });
 };
 
 exports.getAllLeadsFromMCP = async () => {
-  return await getAllLeads();
+  return new Promise((resolve, reject) => {
+    getAllLeads({}, {
+      json: (data) => resolve(data),
+      status: (code) => ({ json: (data) => reject({ status: code, ...data }) })
+    }, (err) => reject(err));
+  });
 };
 
 exports.getLeadByIdFromMCP = async (data) => {
-  if (!data?.id) throw new Error('Missing lead ID');
-  return await getLeadById({ params: { id: data.id } });
+  return new Promise((resolve, reject) => {
+    getLeadById({ params: { id: data.id } }, {
+      json: (data) => resolve(data),
+      status: (code) => ({ json: (data) => reject({ status: code, ...data }) })
+    }, (err) => reject(err));
+  });
 };
 
 exports.updateLeadFromMCP = async (data) => {
-  if (!data?.id || !data?.update) throw new Error('Missing ID or update payload');
-  return await updateLead({ params: { id: data.id }, body: data.update });
+  return new Promise((resolve, reject) => {
+    updateLead({ params: { id: data.id }, body: data.update }, {
+      json: (data) => resolve(data),
+      status: (code) => ({ json: (data) => reject({ status: code, ...data }) })
+    }, (err) => reject(err));
+  });
 };
 
 exports.deleteLeadFromMCP = async (data) => {
-  if (!data?.id) throw new Error('Missing lead ID');
-  return await deleteLead({ params: { id: data.id } });
+  return new Promise((resolve, reject) => {
+    deleteLead({ params: { id: data.id } }, {
+      json: (data) => resolve(data),
+      status: (code) => ({ json: (data) => reject({ status: code, ...data }) })
+    }, (err) => reject(err));
+  });
 };

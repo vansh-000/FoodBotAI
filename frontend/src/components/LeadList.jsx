@@ -6,7 +6,7 @@ export default function LeadList() {
 
   const fetchLeads = async () => {
     const res = await axios.post("http://localhost:3001/mcp/execute", {
-      command: "getLeads",
+      command: "getAllLeads",
     });
     setLeads(res.data.result);
   };
