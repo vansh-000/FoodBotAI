@@ -2,10 +2,15 @@ const leadsCollection = require('../models/lead.model');
 const { FieldValue } = require("firebase-admin/firestore");
 
 const { leadSchema } = require('../validators/lead.schema');
+const db = require('../db/db');
 
 exports.createLead = async (req, res, next) => {
   try {
+    console.log("📩 Incoming payload:", req.body);
+
     const parsedData = leadSchema.parse(req.body);
+    console.log("✅ Parsed data:", parsedData);
+
     const docRef = await db.collection('leads').add(parsedData);
     const newLead = await docRef.get();
     res.status(201).json({ id: docRef.id, ...newLead.data() });
@@ -16,6 +21,7 @@ exports.createLead = async (req, res, next) => {
     next(error);
   }
 };
+
 
 
 exports.getAllLeads = async (req, res, next) => {

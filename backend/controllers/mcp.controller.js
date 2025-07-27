@@ -12,12 +12,19 @@ exports.createLeadFromMCP = async (data) => {
     const res = {
       json: (data) => resolve(data),
       status: (code) => ({
-        json: (data) => reject({ status: code, ...data }),
+        json: (data) => {
+          if (typeof code !== 'number') {
+            console.warn('⚠️  Invalid status code in mock res:', code);
+            return reject({ status: 500, error: 'Invalid status code', details: data });
+          }
+          reject({ status: code, ...data });
+        },
       }),
     };
     createLead(req, res, (err) => reject(err));
   });
 };
+
 
 exports.getAllLeadsFromMCP = async () => {
   return new Promise((resolve, reject) => {

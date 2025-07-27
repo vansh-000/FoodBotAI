@@ -10,7 +10,15 @@ const leadSchema = z.object({
   source: z.string(),
   contact: contactSchema,
   interestedProducts: z.array(z.string()).optional().default([]),
-  status: z.enum(["New", "Contacted", "Qualified", "Lost"]).optional().default("New"),
+  stats: z.enum([
+    "New",
+    "Contacted",
+    "Qualified",
+    "Proposal",
+    "Negotiation",
+    "Closed Won",
+    "Closed Lost"
+  ]).optional().default("New"),
   notes: z.string().optional().default(""),
 });
 
