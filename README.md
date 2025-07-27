@@ -4,7 +4,7 @@ A full-stack CRM system with AI-powered lead capture and management.
 
 ## Tech Stack
 
-**Frontend**: React + Vite + Tailwind CSS + Shadcn UI  
+**Frontend**: React + Vite + Tailwind CSS 
 **Backend**: Node.js + Express + Firebase Firestore  
 **AI**: OpenAI integration with Modular Command Processor (MCP)
 
